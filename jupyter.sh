@@ -38,7 +38,7 @@ jc(){
 	stop\tStops your personal Jupyter container.
 	show\tBrings your Jupyter container to the foreground (ctrl+p,ctrl+q sends it back).
 	list\tShows any running containers. Use this to see if anyone else is working.
-	url\tShows your Jupyter url.
+	url\tShows your Jupyter url and token.
 	shell\tStarts a shell in your running container.
 	destroy\tDeletes your container. *This is not the same thing as 'stop'*\n"
  	   		;;

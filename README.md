@@ -18,7 +18,7 @@ jc start   Starts your personal Jupyter container and sends it to the background
 jc stop    Stops your personal Jupyter container.
 jc show    Brings your Jupyter container to the foreground (ctrl+p,ctrl+q sends it back).
 jc list    Shows any running containers. Use this to see if anyone else is working.
-jc url     Shows your Jupyter url.
+jc url     Shows your Jupyter url and token.
 jc shell   Starts a shell in your running container.
 jc destroy Deletes your container. *This is not the same thing as 'stop'*
 ```
