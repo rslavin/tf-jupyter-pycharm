@@ -1,3 +1,9 @@
+## Author: Rocky Slavin
+# This program is for use with a Docker Tensorflow installation following
+# the steps at http://github.com/rslavin/tf-jupyter-pycharm
+# source this script in your .bashrc file to enable `jc` commands.
+##
+
 # The user must be in the 'docker' group to use these commands
 export JUPYTER_CONT="jupyter-$USER"
 host="somehost.com"
