@@ -106,5 +106,5 @@ The shell script enables the following commands:
       jc list   	Shows any running containers. Use this to see if anyone else is working.
       jc url     	Shows your Jupyter url and token.
       jc shell   	Starts a shell in your running container.
-	  jc log		Prints your container's log file.
+	  jc log	Prints your container's log file.
       jc destroy 	Deletes your container. *This is not the same thing as 'stop'*
