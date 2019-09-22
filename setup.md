@@ -88,6 +88,10 @@ Use the `--name` option to persist the container for later use and the `-v [host
 docker run --runtime=nvidia -it --name myJupyterContainer -v "$HOME/notebooks":/tf -p 8888:8888 tensorflow/tensorflow:latest-gpu-py3-jupyter
 ```
 
+Notes:
+* You must be in the "docker" group to run these commands (including those in the bundled shell script).
+* Docker automatically configures iptables, so the Jupyter port does not need to be configured in ufw. The daemon API port *does* need to be configured, however.
+
 ### Using jupyter.sh
 <a name="shellscript"></a>
 
