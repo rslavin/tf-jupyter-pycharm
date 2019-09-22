@@ -13,7 +13,7 @@ After installation, the [Pycharm Configuration Guide](pycharm.md) has instructio
 A [shell script](setup.md#shellscript) is included for managing Jupyter containers on a multi-user system. It includes the following commands.
 
 ```
-jc init [dir]	Initializes the Jupyter container. If [dir] is passed, your notebooks will be placed in the corresponding directory (MUST BE ABSOLUTE PATH). ~\notebooks is used by default.
+jc init [dir]           Initializes the Jupyter container. If [dir] is passed, your notebooks will be placed in the corresponding directory (MUST BE ABSOLUTE PATH). ~\notebooks is used by default.
 jc start		Starts your personal Jupyter container and sends it to the background.
 jc stop			Stops your personal Jupyter container.
 jc show			Brings your Jupyter container to the foreground (ctrl+p,ctrl+q sends it back).
