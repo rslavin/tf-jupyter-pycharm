@@ -13,12 +13,12 @@ After installation, the [Pycharm Configuration Guide](pycharm.md) has instructio
 A [shell script](setup.md#shellscript) is included for managing Jupyter containers on a multi-user system. It includes the following commands.
 
 ```
-init    Initializes the Jupyter container.
-start   Starts your personal Jupyter container and sends it to the background.
-stop    Stops your personal Jupyter container.
-show    Brings your Jupyter container to the foreground (ctrl+p,ctrl+q sends it back).
-list    Shows any running containers. Use this to see if anyone else is working.
-url     Shows your Jupyter url.
-shell   Starts a shell in your running container.
-destroy Deletes your container. *This is not the same thing as 'stop'*
+jc init    Initializes the Jupyter container.
+jc start   Starts your personal Jupyter container and sends it to the background.
+jc stop    Stops your personal Jupyter container.
+jc show    Brings your Jupyter container to the foreground (ctrl+p,ctrl+q sends it back).
+jc list    Shows any running containers. Use this to see if anyone else is working.
+jc url     Shows your Jupyter url.
+jc shell   Starts a shell in your running container.
+jc destroy Deletes your container. *This is not the same thing as 'stop'*
 ```
