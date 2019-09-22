@@ -16,7 +16,7 @@ mountdir=$HOME/notebooks
 
 jc(){
 	case "$1" in
-		init) docker run -d --runtime=nvidia -v "$mountdir":/tf -it --name $JUPYTER_CONT -p $hostport:$containerport $image
+		init) docker run -d --runtime=nvidia -u $(id -u):$(id -g) -v "$mountdir":/tf -it --name $JUPYTER_CONT -p $hostport:$containerport $image
 			sleep 4
 			"$0" url;;
 		stop) docker stop $JUPYTER_CONT;;
