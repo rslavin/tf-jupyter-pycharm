@@ -39,7 +39,7 @@ jc(){
 			printf "Permissions problems? Make sure you're in the 'docker' group\n"
 			printf "For first-time setup, run \`$0 init\`. After that, you can use the following arguments:
 
-			init [dir]\tCreates the container. If [dir] is passed, your notebooks will be placed in the corresponding directory (MUST BE ABSOLUTE PATH). ~/notebooks is used by default.
+	init [dir]\tCreates the container. If [dir] is passed, your notebooks will be placed in the corresponding directory (MUST BE ABSOLUTE PATH). ~/notebooks is used by default.
 	start\t\tStarts your personal Jupyter container and sends it to the background.
 	stop\t\tStops your personal Jupyter container.
 	show\t\tBrings your Jupyter container to the foreground (ctrl+p,ctrl+q sends it back).
