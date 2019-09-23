@@ -10,7 +10,6 @@ host="somehost.com"
 # note that docker automatically modifies iptables so ufw rules won't affect this
 hostport=8888
 containerport=8888
-apiport=2375 # must be set in /lib/systemd/system/docker.service
 image=tensorflow/tensorflow:latest-gpu-py3-jupyter
 mountdir=$HOME/notebooks # can be overriden with init
 
@@ -68,9 +67,9 @@ jc(){
 		log) 
 			docker logs $JUPYTER_CONT;; 
 		*)
+			port=$(sed -n '/tcp:\/\// s/^.*\.0://p' /etc/systemd/system/docker.service.d/override.conf)
 			printf "usage: $0 <command>\n"
-			printf "API daemon running on port $apiport\n"
-			printf "Notebooks synced with $mountdir\n"
+			printf "API daemon running on port $port\n"
 			printf "Permissions problems? Make sure you're in the 'docker' group\n"
 			printf "For first-time setup, run \`$0 init\`. After that, you can use the following arguments:
 
