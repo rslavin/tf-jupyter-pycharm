@@ -22,7 +22,8 @@ jc(){
 				echo "Container '$JUPYTER_CONT' already exists. Destroy it? [y|n]"
 				read decision
 				case "$decision" in
-					[!yY]) return;;
+					[yY]) "$0" destroy 2> /dev/null;;
+					*) return
 				esac
 			fi
 
@@ -36,7 +37,6 @@ jc(){
 			fi
 			mkdir -p "$mountdir"
 
-			"$0" destroy 2> /dev/null
 			docker run -d --runtime=nvidia -u $(id -u):$(id -g) -v "$mountdir":/tf -it --name $JUPYTER_CONT -p $hostport:$containerport $image > /dev/null \
 				&& echo "Jupyter container '$JUPYTER_CONT' created, mounted directory $mountdir"
 			sleep 4
