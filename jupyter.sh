@@ -17,17 +17,32 @@ mountdir=$HOME/notebooks # can be overriden with init
 jc(){
 	case "$1" in
 		init) 
+			# check if one exists already
+			if docker ps | grep $JUPYTER_CONT > /dev/null; then
+				echo "Container '$JUPYTER_CONT' already exists. Destroy it? [y|n]"
+				read decision
+				case "$decision" in
+					[!yY]) return;;
+				esac
+			fi
+
+			# check for user-specified directory
 			if [[ "$#" > 1 ]]; then
+				if [[ "${2:0:1}" != "/" ]]; then
+					echo "Directory must be specified with absolute path"
+					return
+				fi
 				mountdir="$2"
 			fi
 			mkdir -p "$mountdir"
 
-			"$0" destroy
-			docker run -d --runtime=nvidia -u $(id -u):$(id -g) -v "$mountdir":/tf -it --name $JUPYTER_CONT -p $hostport:$containerport $image
+			"$0" destroy 2> /dev/null
+			docker run -d --runtime=nvidia -u $(id -u):$(id -g) -v "$mountdir":/tf -it --name $JUPYTER_CONT -p $hostport:$containerport $image > /dev/null \
+				&& echo "Jupyter container '$JUPYTER_CONT' created, mounted directory $mountdir"
 			sleep 4
 			"$0" url;;
 		stop) 
-			docker stop $JUPYTER_CONT;;
+			docker stop $JUPYTER_CONT > /dev/null && echo "Jupyter container '$JUPYTER_CONT' stopped";;
 		show) 
 			echo "Use ctrl+p, ctrl+q to exit"
 			docker attach $JUPYTER_CONT;;
@@ -36,13 +51,20 @@ jc(){
 		shell) 
 			echo "Use 'exit' to exit"
 			docker container exec -i $JUPYTER_CONT /bin/bash;;
-		url) docker logs $JUPYTER_CONT | grep '  http.*\?token' | tail -1 | \
-			sed '-e s/^ *//' "-e s/(.\+)/$host/" "-e s/:$containerport/:$hostport/";;
-		start) 
-			docker start $JUPYTER_CONT && sleep 3 && "$0" url;;
+		url|token) 
+			docker logs $JUPYTER_CONT | grep '  http.*\?token' | tail -1 | \
+				sed '-e s/^ *//' "-e s/(.\+)/$host/" "-e s/:$containerport/:$hostport/";;
+		start|resume) 
+			docker start $JUPYTER_CONT > /dev/null && sleep 3 \
+				&& echo "Jupyter container '$JUPYTER_CONT' resumed" && "$0" url;;
 		destroy) 
 			$0 stop &> /dev/null
-		  	docker rm $JUPYTER_CONT &> /dev/null;;
+		  	if docker rm $JUPYTER_CONT &> /dev/null; then
+				echo "Jupyter container '$JUPYTER_CONT' destroyed - notebooks preserved"
+			else
+				echo "Unable to destroy container. Use '$0 list' to see if one exists" >&2
+			fi
+			;;
 		log) 
 			docker logs $JUPYTER_CONT;; 
 		*)
@@ -60,7 +82,7 @@ jc(){
 	url\t\tShows your Jupyter url and token.
 	shell\t\tStarts a shell in your running container.
 	log\t\tPrints your container's log file.
-	destroy\t\tDeletes your container. *This is not the same thing as 'stop'*\n"
+	destroy\t\tDeletes your container. Preserves notebook directory. *This is not the same thing as 'stop'*\n"
  	   		;;
 	esac
 }	
