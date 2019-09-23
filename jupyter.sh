@@ -20,18 +20,31 @@ jc(){
 			if [[ "$#" > 1 ]]; then
 				mountdir="$2"
 			fi
+			mkdir -p "$mountdir"
+
+			"$0" destroy
 			docker run -d --runtime=nvidia -u $(id -u):$(id -g) -v "$mountdir":/tf -it --name $JUPYTER_CONT -p $hostport:$containerport $image
 			sleep 4
 			"$0" url;;
-		stop) docker stop $JUPYTER_CONT;;
-		show) docker attach $JUPYTER_CONT;;
-		list|status) docker ps;;
-		shell) docker container exec -i $JUPYTER_CONT /bin/bash;;
+		stop) 
+			docker stop $JUPYTER_CONT;;
+		show) 
+			echo "Use ctrl+p, ctrl+q to exit"
+			docker attach $JUPYTER_CONT;;
+		list|status) 
+			docker ps;;
+		shell) 
+			echo "Use 'exit' to exit"
+			docker container exec -i $JUPYTER_CONT /bin/bash;;
 		url) docker logs $JUPYTER_CONT | grep '  http.*\?token' | tail -1 | \
 			sed '-e s/^ *//' "-e s/(.\+)/$host/" "-e s/:$containerport/:$hostport/";;
-		start) docker start $JUPYTER_CONT && sleep 3 && "$0" url;;
-		destroy) $0 stop &> /dev/null; docker rm $JUPYTER_CONT;;
-		log) docker logs $JUPYTER_CONT;; 
+		start) 
+			docker start $JUPYTER_CONT && sleep 3 && "$0" url;;
+		destroy) 
+			$0 stop &> /dev/null
+		  	docker rm $JUPYTER_CONT &> /dev/null;;
+		log) 
+			docker logs $JUPYTER_CONT;; 
 		*)
 			printf "usage: $0 <command>\n"
 			printf "API daemon running on port $apiport\n"
@@ -52,5 +65,4 @@ jc(){
 	esac
 }	
 
-mkdir -p "$mountdir"
 printf "\nUse 'jc help' for list of commands\nRunning instances:\n`docker ps`\n"
