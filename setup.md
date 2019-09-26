@@ -108,3 +108,5 @@ The shell script enables the following commands:
       jc shell   	Starts a shell in your running container.
 	  jc log	Prints your container's log file.
       jc destroy 	Deletes your container. *This is not the same thing as 'stop'*
+
+[jupyter.sh](jupyter.sh) also includes the `gtop` command which works like `top` but for the gpu.

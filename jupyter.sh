@@ -95,4 +95,6 @@ jc(){
 	esac
 }	
 
+alias gtop="watch -n0.3 nvidia-smi"
+
 printf "\nUse 'jc help' for list of commands\nRunning instances:\n`docker ps`\n"
