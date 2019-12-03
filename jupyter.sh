@@ -60,7 +60,7 @@ jc(){
 			echo "Use 'exit' to exit"
 			docker container exec -u 0 -i $JUPYTER_CONT /bin/bash;;
 		url|token) 
-			docker logs $JUPYTER_CONT | grep '  http.*\?token' | tail -1 | \
+			docker logs --tail 50 $JUPYTER_CONT | grep '  http.*\?token' | tail -1 | \
 				sed '-e s/^ *//' "-e s/(.\+)/$host/" "-e s/:$containerport/:$hostport/";;
 		start|resume) 
 			docker start $JUPYTER_CONT > /dev/null && sleep 3 \
