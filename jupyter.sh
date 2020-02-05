@@ -13,6 +13,7 @@ containerport=8888
 apiport=2375 # must be set in /lib/systemd/system/docker.service
 image=tensorflow/tensorflow:latest-gpu-py3-jupyter
 mountdir=$HOME/notebooks # can be overriden with init
+urlfile=$HOME/.jupyterurl
 
 func_name(){
 	if [[ -n $BASH_VERSION ]]; then
@@ -60,8 +61,9 @@ jc(){
 			echo "Use 'exit' to exit"
 			docker container exec -u 0 -i $JUPYTER_CONT /bin/bash;;
 		url|token) 
-			docker logs --tail 50 $JUPYTER_CONT | grep '  http.*\?token' | tail -1 | \
-				sed '-e s/^ *//' "-e s/(.\+)/$host/" "-e s/:$containerport/:$hostport/";;
+			cat $urlfile 2> /dev/null || \
+			docker logs --tail 500 $JUPYTER_CONT | grep '  http.*\?token' | tail -1 | \
+				sed '-e s/^ *//' "-e s/(.\+)/$host/" "-e s/:$containerport/:$hostport/" > $urlfile && cat $urlfile;;
 		start|resume) 
 			docker start $JUPYTER_CONT > /dev/null && sleep 3 \
 				&& echo "Jupyter container '$JUPYTER_CONT' resumed" && $(func_name) url;;
