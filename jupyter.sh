@@ -5,7 +5,8 @@
 ##
 
 # The user must be in the 'docker' group to use these commands
-export JUPYTER_CONT="jupyter-$USER"
+contprefix="jupyter"
+export JUPYTER_CONT="$contprefix-$USER"
 host="somehost.com"
 # note that docker automatically modifies iptables so ufw rules won't affect this
 hostport=8888
@@ -57,7 +58,7 @@ jc(){
 			echo "Use ctrl+p, ctrl+q to exit"
 			docker attach $JUPYTER_CONT;;
 		list|status) 
-			docker ps;;
+			docker ps | sed -nE "/^CONTAINER|$contprefix/p";;
 		shell) 
 			echo "Use 'exit' to exit"
 			docker container exec -u 0 -i $JUPYTER_CONT /bin/bash;;
