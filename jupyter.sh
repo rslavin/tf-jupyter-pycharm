@@ -61,7 +61,7 @@ jc(){
 			docker ps | sed -nE "/^CONTAINER|$contprefix/p";;
 		shell) 
 			echo "Use 'exit' to exit"
-			docker container exec -u 0 -i $JUPYTER_CONT /bin/bash;;
+			docker container exec -u 0 --workdir /root -i $JUPYTER_CONT /bin/bash;;
 		url|token) 
 			if [[ -f $tokenfile && -s $tokenfile ]] ; then
 				echo "http://$host:$hostport/?token=`cat $tokenfile`"
